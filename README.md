@@ -16,6 +16,8 @@ gem install spectrerun
 Usage
 ---
 
+`spectrerun` works by looking at the list of files changed (`git diff --name-only`). It then figures out what classes are declared in those files, and which files use those classes. It then gives you a list of specs to run!
+
 ```bash
 spectrerun
 
