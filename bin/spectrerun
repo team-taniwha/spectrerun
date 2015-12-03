@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'spectrerun'
+
+if $stdin.tty?
+  changed_files = `git diff --name-only`.split("\n").map(&:chomp)
+else
+  changed_files = $stdin.readlines.map(&:chomp)
+end
+
+files_to_check = find_specs_to_run(changed_files)
+
+puts files_to_check
