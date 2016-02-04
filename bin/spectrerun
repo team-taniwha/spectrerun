@@ -2,8 +2,47 @@
 
 require 'spectrerun'
 
+def find_uncomitted_files
+  files_in_states('modified')
+end
+
+def files_in_states(*states)
+  state_args = states.map { |state| "--#{state}" }.join(' ')
+  `git ls-files #{state_args}`.split("\n")
+end
+
+def files_in_ref(ref)
+  `git diff-tree --no-commit-id --name-only -r #{ref}`.split("\n")
+end
+
+def message_for_ref(ref)
+  `git log --format="%h %B" -n 1 #{ref}`.chomp
+end
+
+def log(msg)
+  $stderr.puts msg
+end
+
+uncomitted_files = find_uncomitted_files
+REF_TO_USE = ARGV[0]
+
 if $stdin.tty?
-  changed_files = `git diff --name-only`.split("\n").map(&:chomp)
+  if !REF_TO_USE.nil?
+    log "checking against #{REF_TO_USE}"
+    log "\t#{message_for_ref(REF_TO_USE)}"
+
+    changed_files = files_in_ref(REF_TO_USE)
+  elsif !uncomitted_files.empty?
+    log puts "using files not in stage"
+    changed_files = uncomitted_files
+  else
+    ref_to_use = 'HEAD'
+
+    log "you have no uncomitted files - checking against #{ref_to_use}"
+    log "\t#{message_for_ref(ref_to_use)}"
+
+    changed_files = files_in_ref(ref_to_use)
+  end
 else
   changed_files = $stdin.readlines.map(&:chomp)
 end
