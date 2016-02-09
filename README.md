@@ -30,3 +30,8 @@ spectrerun HEAD~1..HEAD~3
 
 spectrerun my_private_branch
 ```
+
+How does it work?
+---
+
+`spectrerun` performs static analysis on your codebase to figure out where constants are declared and used throughout the system. It then figures out which specs you might need to run based on that information.
