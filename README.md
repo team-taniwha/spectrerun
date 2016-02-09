@@ -22,4 +22,11 @@ Usage
 spectrerun
 
 spectrerun | xargs bundle exec rspec
+
+# 5 commits ago
+spectrerun HEAD~5
+
+spectrerun HEAD~1..HEAD~3
+
+spectrerun my_private_branch
 ```
