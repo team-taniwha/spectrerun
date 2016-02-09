@@ -33,7 +33,7 @@ if $stdin.tty?
 
     changed_files = files_in_ref(REF_TO_USE)
   elsif !uncomitted_files.empty?
-    log puts "using files not in stage"
+    log "using files not in stage"
     changed_files = uncomitted_files
   else
     ref_to_use = 'HEAD'
