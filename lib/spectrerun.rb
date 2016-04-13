@@ -10,7 +10,7 @@ def declared_constants(file_name)
 
     File
       .readlines(file_name)
-      .select { |line| line.start_with? 'class' }
+      .select { |line| line.start_with?('class') || line.start_with?('module') }
       .map(&:chomp)
       .map { |declaration| declaration.split[1] }
   ]
